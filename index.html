@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Masking on Hover</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap');
+
+    body,
+    .mask {
+        font-family: "Archivo", sans-serif;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    body {
+        background: #222;
+    }
+
+    span {
+        color: #DDFC3E;
+    }
+
+    .og p {
+        width: 600px;
+        font-size: 24px;
+        color: rgba(255, 255, 255, 0.4);
+        font-weight: 500;
+        line-height: 1.35;
+    }
+
+    .mask p {
+        width: 600px;
+        font-size: 24px;
+        color: black;
+        font-weight: 500;
+        line-height: 1.35;
+    }
+
+    .mask span {
+        color: #ff0000;
+    }
+
+    .mask {
+        position: absolute;
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='50' fill='black'/%3E%3C/svg%3E");
+        mask-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='50' fill='black'/%3E%3C/svg%3E");
+        background: #DDFC3E;
+        -webkit-mask-size: var(--mask-size, 20px);
+        mask-size: var(--mask-size, 20px);
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: calc(var(--mask-x, -50px) - (var(--mask-size, 20px) / 2)) calc(var(--mask-y, -50px) - (var(--mask-size, 20px) / 2));
+        mask-position: calc(var(--mask-x, -50px) - (var(--mask-size, 20px) / 2)) calc(var(--mask-y, -50px) - (var(--mask-size, 20px) / 2));
+        pointer-events: none;
+    }
+</style>
+
+<body>
+
+
+    <div class="og">
+        <p>Modern <span>web development</span> is an elegant dance of robust system architecture, seamless user
+            interfaces, responsive visual designs, and highly optimized scalable infrastructure.</p>
+    </div>
+    <div class="mask">
+        <p>Modern <span>web development</span> is an endless cycle of crying to center a div, breaking production with a
+            typo, blaming the caching layer, and questioning all your life choices.</p>
+    </div>
+
+    <script>
+        const mask = document.querySelector('.mask');
+        const og = document.querySelector('.og');
+        const maskSizeSmall = 20;
+        const maskSizeLarge = 150;
+
+        // GSAP set the initial size correctly
+        gsap.set(mask, {
+            '--mask-size': `${maskSizeSmall}px`
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(mask, {
+                '--mask-x': `${e.clientX}px`,
+                '--mask-y': `${e.clientY}px`,
+                duration: 0.6,
+                ease: 'back.out(1.7)'
+            });
+        });
+
+        og.addEventListener('mouseenter', () => {
+            gsap.to(mask, {
+                '--mask-size': `${maskSizeLarge}px`,
+                duration: 0.4,
+                ease: 'back.out(1.7)'
+            });
+        });
+
+        og.addEventListener('mouseleave', () => {
+            gsap.to(mask, {
+                '--mask-size': `${maskSizeSmall}px`,
+                duration: 0.4,
+                ease: 'back.out(1.7)'
+            });
+        });
+    </script>
+
+</body>
+
+</html>
