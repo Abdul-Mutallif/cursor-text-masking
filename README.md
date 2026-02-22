@@ -1,4 +1,4 @@
-# Cursor Text Masking (Hover Reveal Effect)
+# cursor-text-masking (Hover Reveal Effect)
 
 A clean, modern text masking hover effect built with HTML, CSS, and GSAP.
 
